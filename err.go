@@ -1,6 +1,7 @@
 package Base
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 )
@@ -9,6 +10,20 @@ func CheckErr(e error) bool {
 	if e != nil {
 		fmt.Println("error :", e.Error())
 		return false
+	}
+
+	return true
+}
+
+func CheckSqlQueryErr(e error) bool {
+	switch {
+	case e == sql.ErrNoRows:
+		// fmt.Printf("empty rows")
+		return true
+	case e != nil:
+		return CheckErr(e)
+	default:
+		return true
 	}
 
 	return true
